@@ -1,7 +1,6 @@
-# 4 Support different delimiters
-# to change a delimiter, the beginning of the string will contain a separate line that looks like this: 
-# “//[delimiter]\n[numbers…]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
-# the first line is optional. all existing scenarios should still be supported
+# 5 Calling Add with a negative number will throw an exception “negatives not allowed” - 
+# and the negative that was passed. 
+# if there are multiple negatives, show all of them in the exception message.
 
 require 'rails_helper'
 require_relative 'calculator'
@@ -40,5 +39,11 @@ RSpec.describe Calculator, type: :model do
       end
     end
 
+    [["//;\\n-1;2,7", "-1"], ["1,-2,4\\n-3", "-2,-3"]].each do |str, res|
+      it "Checks that we can add new delimiters" do
+        calculator = Calculator.new() 
+        expect{calculator.add(str)}.to raise_error("Negatives not allowed: " + res)
+      end
+    end
   end
 end

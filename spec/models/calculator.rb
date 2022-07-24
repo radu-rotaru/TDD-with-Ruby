@@ -14,6 +14,13 @@ class Calculator
       return 0
     end
 
+    negativeNumbers = arr.select {|x| x < 0}
+    
+    if negativeNumbers.length > 0
+      errorStr = "Negatives not allowed: %s" % negativeNumbers.join(',')
+      raise errorStr
+    end
+
     return arr.sum
   end
 end
