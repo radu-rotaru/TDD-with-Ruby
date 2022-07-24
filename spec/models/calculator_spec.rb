@@ -1,10 +1,4 @@
-# 1 Create a simple String calculator with a method signature:
-# 
-# int Add(string numbers)
-# 
-# The method can take up to two numbers, separated by commas, and will return their sum. 
-# for example “” or “1” or “1,2” as inputs.
-# (for an empty string it will return 0) 
+# 3 Allow the Add method to handle new lines between numbers (instead of commas).
 
 require 'rails_helper'
 require_relative 'calculator'
@@ -18,5 +12,22 @@ RSpec.describe Calculator, type: :model do
         expect(result).to eq(res)
       end
     end
+
+    [["1,2,3", 6], ["10,40,74", 124], ["1,2", 3]].each do |str, res|
+      it "Checks that we can add more than two numbers when string is valid" do
+        calculator = Calculator.new()
+        result = calculator.add(str) 
+        expect(result).to eq(res)
+      end
+    end
+
+    [["1\\n2,3", 6], ["10\\n90,10\\n20", 130]].each do |str, res|
+      it "Checks that we can have \\n as a delimiter" do
+        calculator = Calculator.new()
+        result = calculator.add(str) 
+        expect(result).to eq(res)
+      end
+    end
+
   end
 end
